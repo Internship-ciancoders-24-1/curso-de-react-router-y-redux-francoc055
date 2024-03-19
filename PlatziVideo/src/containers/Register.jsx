@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
-// import { registerRequest } from '../actions';
-import { Link } from 'react-router-dom';
+import { registerRequest } from '../actions';
+import { Link, Navigate } from 'react-router-dom';
 import '../assets/styles/components/Register.scss';
 
 const Register = props => {
@@ -11,6 +11,8 @@ const Register = props => {
     name: '',
     password: '',
   });
+  const [register, setRegister] = useState(false);
+    
 
   const handleInput = event => {
     setValues({
@@ -22,8 +24,12 @@ const Register = props => {
   const handleSubmit = event => {
     event.preventDefault();
     props.registerRequest(form);
-    props.history.push('/');
+    setRegister(true)
   }
+
+  if (register) {
+    return <Navigate to="/" />;
+}
 
   return(
     <>
@@ -64,9 +70,8 @@ const Register = props => {
   );
 }
 
-// const mapDispatchToProps = {
-//   registerRequest, 
-// }
+const mapDispatchToProps = {
+  registerRequest, 
+}
 
-// export default connect(null, mapDispatchToProps)(Register);
-export default Register
+export default connect(null, mapDispatchToProps)(Register);
